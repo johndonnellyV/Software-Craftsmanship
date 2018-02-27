@@ -1,0 +1,24 @@
+The approach I used was meant to avoid having to throw exceptions and still handle as many cases as possible
+The code searches through each line of code and if it never finds the correct format will output nothing,
+however, if it sees the correct format it will then "activate" and begin scanning for the IPs and domains.
+This way the program won't break if random strings are input.
+
+Approach: The program will ignore all lines that don't follow the proper
+format, the code will only begin to scan once Failed logins from:
+or Illegal users from: appears which should be the beginning of valid input.
+At this point the program scans the lines to check for proper formatted input.
+If it finds a match it will check if it needs to be added to the blacklist and
+do so if needed.
+
+Barricades: any data that is given to addToBlacklist will be properly formatted,
+otherwise it won't make it to that method call.  
+
+Exceptions: For the most part these are avoided by checking to make sure input
+is valid.  However for AttemptNumber NumberFormatException can be thrown, as it
+is possible for a non number to be put where a number is expected.  When this
+occurs the exception is caught because all that is wanted it for the method
+to return false under this condition.
+
+
+Asserts: Used during initial coding, but gone now, just logic checks
+

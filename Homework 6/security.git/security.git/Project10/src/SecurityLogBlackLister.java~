@@ -1,0 +1,138 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Scanner;
+
+/**
+ * Created by Admin on 11/4/2015.
+ */
+public class SecurityLogBlackLister {
+    public Scanner scanner = new Scanner(new InputStreamReader(System.in));
+    public static boolean accessLog = false;
+    public static boolean scanNext = false;
+    public int maxAttempts;
+    StringBuilder builder = new StringBuilder();
+
+    public SecurityLogBlackLister(int maxAttempts){
+        this.maxAttempts = maxAttempts;
+    }
+
+
+    public static void main(String[] args){
+        SecurityLogBlackLister test = new SecurityLogBlackLister(Integer.parseInt(args[0]));
+        test.generateBlacklist();
+    }
+    public void generateBlacklist(){
+        String failedLogin = "Failed login from:\n";
+        String illegalUser = "Illegal users from:\n";
+
+        while(scanner.hasNextLine() == true ) {
+            String line = scanner.nextLine();
+            if (line == failedLogin) {
+                processFailure(line);
+            }
+            else if (line == illegalUser){
+                processFailure(line);
+            }
+        }
+        System.out.print(builder.toString());
+    }
+
+    public void processFailure(String line) {
+        scanNext = false;
+        String IPAddress;
+        String domain = "";
+        String attemptNumber;
+        String[] lineArray = new String[2];
+
+        boolean readingFailures = true;
+        String[] parts = line.split("\\s+");
+        int i = 0;
+        while (parts[i] != null) {
+            lineArray = processParts(parts, i);
+            i++;
+        }
+        IPAddress = lineArray[0];
+        domain = lineArray[1];
+        attemptNumber = lineArray[2];
+        blackListProcessor(domain, attemptNumber, IPAddress);
+        if (scanNext == true && scanner.hasNext()){
+            processFailure(scanner.nextLine());
+        }
+    }
+
+    public void blackListProcessor(String domain, String attemptNumber, String IPAddress){
+        if (blackListCheck(Integer.parseInt(attemptNumber))) {
+            if (domain == "") {
+                addToBlacklist(IPAddress);
+            } else {
+                addToBlacklist(IPAddress, domain);
+            }
+        }
+    }
+    public boolean blackListCheck(int i){
+        if (i > maxAttempts){
+            return true;
+        }
+        return false;
+    }
+    public String[] processParts(String[] parts, int i) {
+        String[] array = new String[2];
+        if (isValidIP(parts[i])) {
+            array[0] = parts[i];
+        } else if (isValidDomain(parts[i])) {
+            array[1] = parts[i];
+        } else if (isValidAttemptSyntax(parts, i)) {
+            array[2] = parts[i] + " " + parts[i + 1];
+            scanNext = true;
+        }
+        return array;
+    }
+
+    public boolean isValidAttemptSyntax(String parts[], int i){
+        if (Integer.parseInt(parts[i]) > -1 && (parts[i + 1] == "times" || parts[i + 1] == "time")){
+            return true;
+        }
+        return false;
+    }
+    public boolean isValidDomain(String domain){
+        String[] parts = domain.split("\\.", -1);
+        for(String s : parts){
+            if (s.contains(" ") || s.contains("_"));
+            return false;
+        }
+        return true;
+    }
+    public boolean isValidIP(String string) {
+        String[] parts = string.split("\\.", -1);
+        return parts.length == 4 // 4 parts
+                && Arrays.stream(parts)
+                .filter(SecurityLogBlackLister::isNumeric) // Only numbers
+                .map(Integer::parseInt)
+                .filter(i -> i <= 255 && i >= 0) // Must be inside [0, 255]
+                .count() == 4; // 4 numerical parts inside [0, 255]
+    }
+
+    /**
+     * Check that a string consists of only numbers
+     * @param string The string to check
+     * @return true if string consits of only numbers, false otherwise
+     */
+    public static boolean isNumeric(String string) {
+        for(char c : string.toCharArray()) {
+            if(c < '0' || c > '9') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public void addToBlacklist(String IPAddress, String domain){
+        builder.append(domain +" "+ IPAddress + "/" + "\n");
+    }
+
+    public void addToBlacklist(String IPAddress){
+        builder.append(IPAddress+ "/" + "\n");
+    }
+}
