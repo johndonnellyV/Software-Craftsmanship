@@ -1,0 +1,116 @@
+
+
+class is a data wrapper class called hashTreeWrapper
+
+	create a field for an positionInput
+	create a field for a generic object
+	create an integer field called depth
+	create a hashTreeWrapper field for parent
+	create a hashTreeWrapper field for right child
+	create a hashTreeWrapper field for left child
+	create integers called rightHeight, leftHeight, and height
+	create an integer called balance
+
+	constructor takes an integer for position input and a object
+		sets them equal to the respective fields
+
+	create getters and setters for the fields
+
+	compareTo() method that compares generic comparable object
+
+	getDepth() loops by getting the parent class until it hits the top note
+	It increments the depth field each time it calls getParent without an error
+
+	getHeight(Node input)
+	rightHeight equals getHeight on the right child
+	leftHeight equals getHeight on the left child
+	height equals the greater of rightHeight and leftHeight
+	balance equals leftheight minus rightHeight
+
+
+class is called hashTree
+
+	create an array to store the tree make up of the wrapper class
+	create a static field to store a classwide counter
+	create a final int k to store the array max value
+	create a dataWrapper called currentMax
+	create a dataWrapper called oldest
+
+	Constructor sets the input value (INITIALIZE(k))
+		if k is greater than or equal to 0
+			create an array equal to 2k + 1 of type hashTreeWrapper
+		else
+			throw an exception
+
+	void Offer (nodeX)
+		make a boolean called max that is true if nodeX is greater than everything
+		start at first node
+		while boolean done is false
+			if the value of the current node is greater than the nodeX (unless its empty)
+				nodeX gets the right child
+
+			else if the value is less than the nodeX (unless its empty set that as null or 0 and catch it or something)
+				nodeX gets the left child
+				max equals false
+			else
+				set nodeX to become right child
+				change the parents value so it has the correct child
+				done is true
+
+		balance the tree	
+		counter++
+		
+		if max is true
+			set currentMax to this object
+
+		set oldest equal to this object
+
+
+		balance()
+		call delete()
+		call hashBalance()
+
+		hashBalance()
+			allowed depth is log(base2k+2) 2 = depth (not needed as it can't be balanced and also be too deep)
+
+				balance the tree calling rotateRight() and rotateLeft() as needed (basic AVL rotation)
+				make sure to update the balance of the nodes
+
+		delete()
+				search for the oldest value
+				if the value is less than the counter - k
+					remove the node by setting the right child's parent to the node's parent
+					and set the left child to the right child's left most child
+				else
+					move to the next node
+
+
+		T search(element)
+		start at the first array element
+		boolean done is false
+		while done is false
+			if element is greater than it
+				get the left child
+			else if element is less than it
+				get the right child
+			else
+			it has been found
+			done equals true
+
+		T Max()
+			simply return the currentMax field
+
+
+
+
+		Max should have a runtime of O(1) since the max is in a known spot in the array
+		it also doesn't add significant time to offer to matter for that method
+
+		inserting should be O(log n) (including balancing)
+		This is because binary search tree has a search time of O(log n) to
+		find the proper place and then it calls balance which is O(log n) as well
+		making it o(log n) + O(log n) which is just O(log n)
+
+		balance is an O(log n) running algorithm in binary search trees when written correctly
+		as its not a random search
+
