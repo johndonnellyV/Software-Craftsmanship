@@ -1,0 +1,60 @@
+14c14
+<         for(String s: formulas) {
+---
+>         for (String s : formulas) {
+25c25
+<         for(String s: formulas) {
+---
+>         for (String s : formulas) {
+35c35
+<         for(String s: formulas) {
+---
+>         for (String s : formulas) {
+43c43
+<         String[] formulas = {"H(Io4)3", "H(Io3", "H((H2O)7)6", "()", "H2O)3", "(H20(I)4Nz2)2", "(H20)", "(H2O)B4"};
+---
+>         String[] formulas = {"H(Io4)3", "H(Io3", "H((H2O)7)6", "()", "H2O)3", "(H20(I)4Nz2)2", "(H20)", "(H2O)B4", "(H2OC)(CH4C)"};
+45c45
+<         for(String s: formulas) {
+---
+>         for (String s : formulas) {
+55c55
+<         for(String s: formulas) {
+---
+>         for (String s : formulas) {
+65c65
+<         for(String s: formulas) {
+---
+>         for (String s : formulas) {
+67a68,98
+>     }
+> 
+>     @Test
+>     public void testOffByOne() { //literally by these passing its proved fixed otherwise arrays out of bounds
+>         FormulaChecker checker = new FormulaChecker();
+>         String[] formulas = {"H2O", "HCL"};
+> 
+>         for (String s : formulas) {
+>             assertTrue("Checking " + s, checker.checkFormula(s));
+>         }
+>     }
+> 
+>     @Test
+>     public void testMultipleLowerCase() {
+>         FormulaChecker checker = new FormulaChecker();
+>         String[] formulas = {"Hea4HasJ", "He3Jf4", "Je5Ods7", "Jsd4Le5JrtKiu"};
+>         //proves multiple lowercase works
+>         for (String s : formulas) {
+>             assertTrue("Checking " + s, checker.checkFormula(s));
+>         }
+>     }
+> 
+>     @Test
+>     public void testZeroAfterAnotherElement() {
+>         FormulaChecker checker = new FormulaChecker();
+>         String[] formulas = {"He2344h02"};
+>         //proves multiple lowercase works
+>         for (String s : formulas) {
+>             assertFalse("Checking " + s, checker.checkFormula(s));
+>         }
+> 

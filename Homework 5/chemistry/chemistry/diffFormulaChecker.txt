@@ -1,0 +1,62 @@
+9,20c9,20
+<     // The final output and message that goes along with it
+<     private String failureMessage;
+<     private boolean correctFormula;
+< 
+<     // Used for the logic of what characters will be valid in the formula
+<     private boolean parenthesesValid;
+<     private boolean upperCaseValid;
+<     private boolean lowerCaseValid;
+<     private int numLowerCase;
+<     private int numElements;
+<     private boolean numberValid;
+<     private boolean inParentheses;
+---
+>     	// The final output and message that goes along with it
+>     	private String failureMessage;
+>     	private boolean correctFormula;
+> 
+>     	// Used for the logic of what characters will be valid in the formula
+>     	private boolean parenthesesValid;
+>     	private boolean upperCaseValid;
+>     	private boolean lowerCaseValid;
+>     	private int numLowerCase;
+>     	private int numElements;
+>     	private boolean numberValid;
+>     	private boolean inParentheses;
+45c45
+<         for(int i=0; i<=characterFormula.length - 1; i++) {
+---
+>         for(int i=0; i<=characterFormula.length - 1; i++) { //OFF BY ONE ERROR
+74c74
+<             return "True";
+---
+>             return "T"; //SAID TRUE NOT T
+76c76
+<             return "False";
+---
+>             return "F";
+102c102
+<             processParentheses(c);
+---
+>             processParentheses(c); //ERROR HERE
+150c150
+< //        assert Character.getType((int)c)==Character.TITLECASE_LETTER;
+---
+>         assert Character.getType((int)c)==Character.UPPERCASE_LETTER; //WAS TITLE CASE
+157c157
+<             numbersInARow = 0;
+---
+>             numbersInARow = 0; //MY DOING
+177c177
+<             numbersInARow = 0;
+---
+>             numbersInARow = 0; //MY DOING
+193c193
+<         if(numberValid) {
+---
+>         if(numberValid) { //WAS WRONG said Parenth
+232c232
+<             numbersInARow = 0;
+---
+>             numbersInARow = 0; //MY DOING
